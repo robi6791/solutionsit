@@ -1,15 +1,22 @@
 import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import {DM_Sans} from "next/font/google"
+import grainImage from "@/public/images/grain.jpg";
+import CookieConsent from '../app/CookieConsent';
 
-const dmSans = DM_Sans({
-  weight: ['400', '500', '700'],
-  subsets: ['latin'],
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "John Doe Portfolio",
-  description: "Portfolio Website John Doe",
+  title: "robisolutionsit",
+  description: "Modern Portfolio with next.js",
 };
 
 export default function RootLayout({
@@ -19,7 +26,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={dmSans.className}>{children}</body>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <div 
+          className="fixed inset-0 -z-50 opacity-5" 
+          style={{backgroundImage: `url(${grainImage.src})`, backgroundRepeat: 'repeat'}}
+        />
+        {children}
+        <CookieConsent />
+      </body>
     </html>
   );
 }
