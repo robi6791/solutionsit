@@ -6,7 +6,6 @@ import {
   AiFillYoutube,
   AiFillLinkedin, // Dodano LinkedIn
 } from "react-icons/ai";
-import { FaTelegramPlane } from "react-icons/fa";
 
 // Dodanie globalnego stylu dla text-stroke (zakładając konfigurację w pliku globalnym CSS/Tailwind)
 /* Jeśli używasz pliku CSS, dodaj:

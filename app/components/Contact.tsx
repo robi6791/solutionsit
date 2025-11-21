@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { AiOutlineMail, AiOutlinePhone } from "react-icons/ai";
 import { FaWhatsapp } from "react-icons/fa";
 
@@ -271,7 +270,7 @@ const Contact = () => {
                 rel="noopener noreferrer"
                 className={linkColor}
               >
-                Tom's Hardware (Recenzje)
+                Tom&apos;s Hardware (Recenzje)
               </a>
             </li>
             {/* NOWY LINK: HARDWARE 2 */}

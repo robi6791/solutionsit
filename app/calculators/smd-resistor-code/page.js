@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useCallback, useEffect } from "react";
-import { FaCogs, FaCalculator, FaMicrochip } from "react-icons/fa";
+import { FaCalculator } from "react-icons/fa";
 
 // MAPOWANIE DLA FORMATU EIA-96 (wysoka precyzja, 1%)
 // Pierwsze dwie cyfry dają kod wartości, trzecia cyfra to mnożnik.

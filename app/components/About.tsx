@@ -8,7 +8,14 @@ import {
 } from "framer-motion";
 import { useEffect } from "react";
 // Zmienione ikonki, aby lepiej pasowały do całego profilu
-import { FiTool, FiTerminal, FiCode, FiLayers, FiServer, FiCloud, FiEdit } from "react-icons/fi"; 
+import {
+  FiTool,
+  FiTerminal,
+  FiCode,
+  FiServer,
+  FiCloud,
+  FiEdit,
+} from "react-icons/fi";
 
 // Wybrana paleta niebiesko-cyjanowa
 const COLORS_TOP = ["#007ACC", "#00BFFF", "#00FFFF", "#40E0D0"];
@@ -31,7 +38,7 @@ const skills = [
     icon: FiCode,
     title: "Frontend & UI/UX Design",
     description:
-      "Budowanie nowoczesnych, responsywnych interfejsów (React, Next.js, TypeScript) oraz projektowanie UI/UX.",
+      "Budowanie nowoczesnych, responsywnych interfejsów użytkownika z naciskiem na czytelność, dostępność i estetykę.",
   },
   {
     icon: FiServer,
@@ -102,13 +109,30 @@ const About = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             <div className="border border-gray-800 p-6 space-y-6 rounded-lg hover:border-cyan-500/50 transition-colors duration-300 bg-gray-900/40 backdrop-blur-sm">
-              <p className="text-2xl font-semibold text-cyan-300">
-                Moja Droga
-              </p>
+              <p className="text-2xl font-semibold text-cyan-300">Moja Droga</p>
               <p className="text-gray-300 text-lg leading-relaxed">
-                Jestem <span className="text-cyan-400 font-semibold">doświadczonym elektronikiem</span> i specjalistą ds. sprzętu i oprogramowania, z <span className="text-cyan-400 font-semibold">ponad 20-letnią praktyką</span> w naprawach PC, laptopów i kart graficznych, oraz administracji systemami (Windows/Linux). Moja wiedza techniczna i precyzja hardware'owa od <span className="text-cyan-400 font-semibold">5 lat</span> wspierana jest pasją do nowoczesnego <span className="text-cyan-400 font-semibold">projektowania i programowania stron webowych (Fullstack)</span>. Ta unikalna kombinacja wiedzy z obu światów pozwala mi tworzyć <span className="text-cyan-400 font-semibold">skalowalne rozwiązania</span> oparte na solidnych fundamentach.
+                Jestem{" "}
+                <span className="text-cyan-400 font-semibold">
+                  doświadczonym elektronikiem
+                </span>{" "}
+                i specjalistą ds. sprzętu i oprogramowania, z{" "}
+                <span className="text-cyan-400 font-semibold">
+                  ponad 20-letnią praktyką
+                </span>{" "}
+                w naprawach PC, laptopów i kart graficznych, oraz administracji
+                systemami (Windows/Linux). Moja wiedza techniczna i precyzja
+                hardware&apos;owa od{" "}
+                <span className="text-cyan-400 font-semibold">5 lat</span>{" "}
+                wspierana jest pasją do nowoczesnego{" "}
+                <span className="text-cyan-400 font-semibold">
+                  projektowania i programowania stron webowych (Fullstack)
+                </span>
+                . Ta unikalna kombinacja wiedzy z obu światów pozwala mi tworzyć{" "}
+                <span className="text-cyan-400 font-semibold">
+                  skalowalne rozwiązania
+                </span>{" "}
+                oparte na solidnych fundamentach.
               </p>
-              
             </div>
           </motion.div>
 
@@ -129,7 +153,7 @@ const About = () => {
               >
                 <div className="flex items-start gap-4">
                   {/* Ikonka z akcentem cyjanu */}
-                  <div className="p-3 rounded-lg bg-cyan-500/50 text-cyan-300"> 
+                  <div className="p-3 rounded-lg bg-cyan-500/50 text-cyan-300">
                     <skill.icon className="w-6 h-6" />
                   </div>
                   <div>

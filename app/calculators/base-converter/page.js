@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import { FaRecycle, FaMicrochip, FaCubes, FaEraser } from "react-icons/fa";
+import { FaRecycle, FaMicrochip, FaEraser } from "react-icons/fa";
 
 // Lista baz liczbowych
 const BASES = [

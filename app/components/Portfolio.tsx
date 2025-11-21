@@ -3,12 +3,12 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-// Importujemy IconType, aby poprawnie typować ikony
-import { IconType } from "react-icons";
 // Zakładamy, że masz te obrazki
 import placeholderImage1 from "@/public/images/projekt1.jpg";
 import placeholderImage2 from "@/public/images/projekt2.jpg";
 import placeholderImage3 from "@/public/images/projekt3.jpg";
+
+import type { StaticImageData } from "next/image";
 
 import {
   useMotionTemplate,
@@ -18,15 +18,12 @@ import {
 } from "framer-motion";
 
 // === ZAKTUALIZOWANE IMPORTY IKON TECHNOLOGII ===
-import { FaReact, FaNodeJs } from "react-icons/fa";
+import { FaReact } from "react-icons/fa";
 import {
-  SiTypescript,
   SiNextdotjs,
   SiTailwindcss,
   SiPrisma,
   SiPostgresql,
-  SiStrapi,
-  SiFirebase,
   SiHtml5,
   SiCss3,
   SiJavascript,
@@ -67,7 +64,7 @@ const projects: {
   projectLink: string;
   title: string;
   description: string;
-  image: any;
+  image: StaticImageData;
   technologies: TechKey[];
 }[] = [
   {

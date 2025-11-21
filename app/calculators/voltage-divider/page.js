@@ -219,7 +219,7 @@ const VoltageDividerCalculator = () => {
           {Object.keys(values).map((key) => {
             const isTarget = key === targetKey;
             const isResistance = key.startsWith("R");
-            const isCalculated = isTarget && results[key] && !error;
+            // const isCalculated = isTarget && results[key] && !error;
 
             return (
               <div key={key}>

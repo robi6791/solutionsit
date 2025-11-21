@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import { FaCogs, FaPalette, FaMicrochip } from "react-icons/fa";
+import { FaPalette, FaMicrochip } from "react-icons/fa";
 
 // MAPOWANIE KOLORÓW NA WARTOŚCI
 // Wartość (Cyfra), Mnożnik (Potęga 10), Tolerancja (%)
