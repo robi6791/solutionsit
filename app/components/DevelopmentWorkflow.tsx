@@ -11,8 +11,6 @@ import {
   FaCode,
   FaGitAlt,
   FaCloudUploadAlt,
-  FaBug,
-  FaBook,
   FaTools,
 } from "react-icons/fa";
 

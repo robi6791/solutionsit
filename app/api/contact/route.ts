@@ -58,7 +58,6 @@ Nowa wiadomość z formularza kontaktowego:
 
 Imię: ${name}
 E-mail nadawcy: ${email}
-
 Treść:
 ${message}
 `;

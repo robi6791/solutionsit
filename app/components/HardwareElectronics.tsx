@@ -5,7 +5,6 @@ import {
   FaTools,
   FaWrench,
   FaMicrochip,
-  FaBolt,
   FaThermometerHalf,
   FaCogs,
   FaServer,

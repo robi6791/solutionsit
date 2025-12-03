@@ -12,7 +12,7 @@ export async function GET() {
       const file = await fs.readFile(FILE_PATH, "utf-8");
       const parsed = JSON.parse(file);
       views = typeof parsed.views === "number" ? parsed.views : 0;
-    } catch (error) {
+    } catch {
       // jeśli pliku nie ma / jest błędny – start od 0
       views = 0;
     }

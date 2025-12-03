@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 // --- FUNKCJE POMOCNICZE DO OBLICZEŃ SIEĆIOWYCH ---
 
@@ -33,18 +33,18 @@ const SubnetCalculator = () => {
   const [error, setError] = useState("");
 
   // ---------------------------------------------------------------------
-  // 1. GŁÓWNA LOGIKA OBLICZENIOWA
+  // 1. GŁÓWNA LOGIKA OBLICZENIOWA (useCallback, żeby nie psuć useEffect)
   // ---------------------------------------------------------------------
-  const calculateSubnet = () => {
+  const calculateSubnet = useCallback(() => {
     setError("");
     const cidr = parseInt(cidrInput);
 
-    // Walidacja CIDR i IP (pominięto dla zwięzłości, ale obecna w poprzedniej wersji)
     if (isNaN(cidr) || cidr < 1 || cidr > 32) {
       setError("Niepoprawny CIDR (powinien być między 1 a 32).");
       setResults({});
       return;
     }
+
     const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$/;
     if (
       !ipRegex.test(ipInput) ||
@@ -82,9 +82,7 @@ const SubnetCalculator = () => {
         lastUsableHost = broadcastAddress;
       }
 
-      const toBinaryString = (num) => {
-        return num.toString(2).padStart(32, "0");
-      };
+      const toBinaryString = (num) => num.toString(2).padStart(32, "0");
 
       setResults({
         cidr: cidr,
@@ -104,11 +102,11 @@ const SubnetCalculator = () => {
       setError("Wystąpił nieznany błąd podczas obliczeń.");
       setResults({});
     }
-  };
+  }, [ipInput, cidrInput]); // 🔥 zależności logiki
 
   useEffect(() => {
     calculateSubnet();
-  }, [ipInput, cidrInput]);
+  }, [calculateSubnet]); // 🔥 teraz lint jest szczęśliwy
 
   // ---------------------------------------------------------------------
   // 2. RENDEROWANIE JSX (Styl Dark Mode)
@@ -118,7 +116,6 @@ const SubnetCalculator = () => {
   const labelStyle = "block text-cyan-400 font-semibold mb-1";
 
   return (
-    // Używamy bg-gray-900 jako tła głównego kontenera
     <div className="flex flex-col items-center justify-start p-8 bg-gray-900 min-h-screen text-white">
       <div className="w-full max-w-3xl bg-gray-800 p-6 rounded-xl shadow-2xl">
         <h1 className="text-3xl font-bold mb-6 text-center text-cyan-400">
@@ -247,7 +244,7 @@ const SubnetCalculator = () => {
   );
 };
 
-// Komponent pomocniczy do wyświetlania wierszy tabeli (dostosowany do dark mode)
+// Komponent pomocniczy do wyświetlania wierszy tabeli
 const ResultRow = ({ label, value, emphasize = false }) => (
   <tr
     className={
@@ -261,9 +258,8 @@ const ResultRow = ({ label, value, emphasize = false }) => (
   </tr>
 );
 
-// --- KOMPONENT POMOCNICZY DO WYŚWIETLANIA BINARNEGO ADRESU (Koloryzacja) ---
+// --- KOMPONENT POMOCNICZY DO WYŚWIETLANIA BINARNEGO ADRESU ---
 const BinaryDisplay = ({ label, binaryString, cidr }) => {
-  // Dzieli ciąg binarny na 4 oktety
   const octets = [
     binaryString.substring(0, 8),
     binaryString.substring(8, 16),
@@ -284,25 +280,21 @@ const BinaryDisplay = ({ label, binaryString, cidr }) => {
           let networkPart = "";
           let hostPart = "";
 
-          // Logika kolorowania:
           if (networkEnd >= end) {
-            networkPart = octet; // Cały oktet jest siecią
+            networkPart = octet;
           } else if (networkEnd > start && networkEnd < end) {
-            networkPart = octet.substring(0, networkEnd - start); // Część sieć
-            hostPart = octet.substring(networkEnd - start); // Część host
+            networkPart = octet.substring(0, networkEnd - start);
+            hostPart = octet.substring(networkEnd - start);
           } else if (networkEnd <= start) {
-            hostPart = octet; // Cały oktet to host
+            hostPart = octet;
           }
 
           return (
             <span key={index} className="mr-2">
-              {/* Część sieciowa - Niebieski (jak akcent w MicTest) */}
               {networkPart && (
                 <span className="text-blue-500 font-bold">{networkPart}</span>
               )}
-              {/* Część hosta - Czerwony (jak stan stop w MicTest) */}
               {hostPart && <span className="text-red-500">{hostPart}</span>}
-              {/* Separator */}
               {index < 3 && <span className="text-gray-500">.</span>}
             </span>
           );

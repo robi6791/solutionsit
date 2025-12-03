@@ -2,6 +2,7 @@
 
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { TextureLoader } from "three";
+import * as THREE from "three"; // ✅ typy do refa
 import React, { useRef } from "react";
 import { motion } from "framer-motion";
 
@@ -21,10 +22,17 @@ export const GitHubGalaxyOrb = () => {
 };
 
 const GalaxyOrbMesh = () => {
-  const ref = useRef<any>(null);
+  // ✅ zamiast any dajemy konkretny Mesh ze SphereGeometry + MeshStandardMaterial
+  const ref = useRef<THREE.Mesh<
+    THREE.SphereGeometry,
+    THREE.MeshStandardMaterial
+  > | null>(null);
+
   const texture = useLoader(TextureLoader, "/images/github-logo.png");
 
   useFrame((state) => {
+    if (!ref.current) return;
+
     const t = state.clock.getElapsedTime();
 
     // wolna rotacja
@@ -36,22 +44,23 @@ const GalaxyOrbMesh = () => {
   });
 
   return (
-    <mesh ref={ref}>
-      <sphereGeometry args={[1, 64, 64]} />
-
-      <meshStandardMaterial
-        map={texture}
-        emissive={"#00bfff"}
-        emissiveIntensity={0.6}
-        transparent
-        opacity={0.95}
-      />
+    <>
+      <mesh ref={ref}>
+        <sphereGeometry args={[1, 64, 64]} />
+        <meshStandardMaterial
+          map={texture}
+          emissive={"#00bfff"}
+          emissiveIntensity={0.6}
+          transparent
+          opacity={0.95}
+        />
+      </mesh>
 
       {/* ambient space light */}
       <ambientLight intensity={0.7} />
 
       {/* zimne punktowe światło jak w kosmosie */}
       <pointLight position={[5, 5, 5]} intensity={2} color="#00ffff" />
-    </mesh>
+    </>
   );
 };
