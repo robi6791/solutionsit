@@ -1,24 +1,44 @@
-// CookieConsent.jsx
 "use client";
 
 import React, { useState, useEffect } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
-const COOKIE_STORAGE_KEY = "cookies_status"; // Zmieniono klucz na bardziej ogólny
+const COOKIE_STORAGE_KEY = "cookies_status";
 const COOKIE_STATUS_ACCEPTED = "accepted";
 const COOKIE_STATUS_DECLINED = "declined";
 
 const CookieConsent = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isDetailsVisible, setIsDetailsVisible] = useState(false);
-  const [isSettingsVisible, setIsSettingsVisible] = useState(false); // Nowy stan dla instrukcji
+  const [isSettingsVisible, setIsSettingsVisible] = useState(false);
 
   useEffect(() => {
-    // Sprawdza, czy użytkownik już podjął decyzję
-    const status = localStorage.getItem(COOKIE_STORAGE_KEY);
+    const status =
+      typeof window !== "undefined"
+        ? localStorage.getItem(COOKIE_STORAGE_KEY)
+        : null;
+
+    // Pierwsza wizyta – pokaż baner
     if (!status) {
       setIsVisible(true);
     }
+
+    // Nasłuch na globalne "open-cookie-settings" (z footer button)
+    const handleOpenSettings = () => {
+      setIsVisible(true);
+      setIsDetailsVisible(true);
+      setIsSettingsVisible(true);
+    };
+
+    if (typeof window !== "undefined") {
+      window.addEventListener("open-cookie-settings", handleOpenSettings);
+    }
+
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("open-cookie-settings", handleOpenSettings);
+      }
+    };
   }, []);
 
   const handleAccept = () => {
@@ -27,9 +47,8 @@ const CookieConsent = () => {
   };
 
   const handleDecline = () => {
-    // Zapamiętuje decyzję "odrzucono", aby nie pytać ponownie
     localStorage.setItem(COOKIE_STORAGE_KEY, COOKIE_STATUS_DECLINED);
-    // Tutaj należy dodać logikę blokowania skryptów śledzących
+    // tutaj w razie czego można blokować skrypty analityczne
     setIsVisible(false);
   };
 
@@ -37,16 +56,24 @@ const CookieConsent = () => {
 
   return (
     <div className="fixed inset-0 z-[1000] bg-black/70 flex items-end justify-center">
-      {/* Kontener główny komunikatu, teraz na dole ekranu */}
-      <div className="w-full max-w-4xl p-4 bg-gray-800 text-white shadow-2xl transition-all duration-500 ease-in-out">
-        {/* Sekcja 1: Treść i przyciski */}
+      <div className="w-full max-w-4xl p-4 bg-gray-800 text-white shadow-2xl transition-all duration-500 ease-in-out relative">
+        {/* Zamknięcie (tylko widok, nie zapisuje decyzji) */}
+        <button
+          type="button"
+          onClick={() => setIsVisible(false)}
+          className="absolute right-3 top-3 text-gray-400 hover:text-white"
+          aria-label="Zamknij komunikat o cookies"
+        >
+          <AiOutlineClose />
+        </button>
+
+        {/* Treść + przyciski */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between border-b border-gray-700 pb-4 mb-4">
-          {/* Treść */}
           <div className="mb-4 md:mb-0 md:pr-4">
             <p className="text-sm">
               Używamy plików cookie w celu zapewnienia prawidłowego działania
-              serwisu i analizy ruchu. Korzystanie z witryny oznacza zgodę na
-              ich zapis lub odczyt.
+              serwisu oraz (opcjonalnie) analizy ruchu. Możesz zaakceptować
+              wszystkie cookies lub ograniczyć ich użycie.
             </p>
             <div className="flex space-x-4 mt-2">
               <button
@@ -57,7 +84,6 @@ const CookieConsent = () => {
                   ? "Ukryj typy cookies"
                   : "Rodzaje używanych cookies"}
               </button>
-              {/* Nowy link do instrukcji przeglądarki */}
               <button
                 onClick={() => setIsSettingsVisible(!isSettingsVisible)}
                 className="text-indigo-300 text-xs hover:underline focus:outline-none"
@@ -69,54 +95,53 @@ const CookieConsent = () => {
             </div>
           </div>
 
-          {/* Przyciski akcji */}
-          <div className="flex space-x-3 flex-shrink-0">
+          <div className="flex space-x-3 flex-shrink-0 mt-2 md:mt-0">
             <button
               onClick={handleAccept}
-              className="px-4 py-2 text-sm font-semibold bg-sky-600 rounded hover:bg-sky-700 transition"
+              className="px-4 py-2 text-sm font-semibold bg-sky-600 rounded hover:bg-sky-700 transition mt-8"
             >
               Akceptuję
             </button>
             <button
               onClick={handleDecline}
-              className="px-4 py-2 text-sm font-semibold border border-gray-600 rounded text-gray-400 hover:text-white transition"
+              className="px-4 py-2 text-sm font-semibold border border-gray-600 rounded text-gray-400 hover:text-white transition mt-8"
             >
               Odrzuć
             </button>
           </div>
         </div>
 
-        {/* Sekcja 2: Szczegóły (rozwijane) */}
+        {/* Szczegóły typów cookies */}
         {isDetailsVisible && (
           <div className="w-full p-3 bg-gray-700 rounded text-xs mb-4">
-            <p className="mb-2 font-bold">
-              Rodzaje plików cookies, których możemy używać:
-            </p>
+            <p className="mb-2 font-bold">Rodzaje plików cookies:</p>
             <ul className="list-disc list-inside space-y-1">
               <li>
-                **Niezbędne:** Do prawidłowego działania strony (np. sesja
-                logowania).
+                <span className="font-semibold">Niezbędne:</span> do
+                prawidłowego działania strony (np. podstawowe ustawienia).
               </li>
               <li>
-                **Analityczne:** Do zbierania danych o ruchu (np. Google
-                Analytics).
+                <span className="font-semibold">Analityczne:</span> do zbierania
+                danych statystycznych o ruchu (np. liczba odwiedzin), wyłącznie
+                za Twoją zgodą.
               </li>
               <li>
-                **Marketingowe:** Do wyświetlania spersonalizowanych reklam.
+                <span className="font-semibold">Preferencyjne:</span> do
+                zapamiętywania Twoich wyborów (np. decyzja o cookies).
               </li>
             </ul>
           </div>
         )}
 
-        {/* Sekcja 3: Ustawienia przeglądarki (NOWA) */}
+        {/* Instrukcje przeglądarek */}
         {isSettingsVisible && (
           <div className="w-full p-4 bg-gray-700 rounded text-xs">
             <h4 className="font-bold text-sm mb-2">
-              Instrukcje zarządzania plikami cookie w przeglądarkach:
+              Instrukcje zarządzania plikami cookies w przeglądarkach:
             </h4>
             <p className="mb-2">
-              Możesz zablokować lub ograniczyć pliki cookie, zmieniając
-              ustawienia w swojej przeglądarce.
+              Możesz zablokować lub ograniczyć pliki cookies, zmieniając
+              ustawienia w swojej przeglądarce internetowej:
             </p>
             <ul className="list-disc list-inside space-y-1 text-sky-300">
               <li>
