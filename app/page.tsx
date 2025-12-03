@@ -16,7 +16,7 @@ export default function Home() {
       <Navbar />
 
       {/* HERO + główne H1 SEO */}
-      <section className="pt-20">
+      <section className="">
         <h1 className="sr-only">
           Freelancer IT – Fullstack Developer – DevOps – Robert Senenko
         </h1>

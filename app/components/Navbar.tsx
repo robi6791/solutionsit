@@ -22,11 +22,13 @@ const Navbar = () => {
   };
 
   return (
-    <div className="z-50 fixed flex justify-center w-full text-white font-bold">
+    // ✅ przyklejony do góry
+    <div className="z-50 fixed top-0 left-0 flex justify-center w-full text-white font-bold">
       {/* Desktop navbar */}
       <div
-        className="border border-slate-700/20 shadow-sm shadow-slate-800 mt-2 backdrop-blur-lg rounded-lg 
-                   hidden md:flex items-center justify-center p-2 max-w-[400px] mx-auto"
+        className="border border-slate-700/20 shadow-sm shadow-slate-800 backdrop-blur-lg 
+                   rounded-lg hidden md:flex items-center justify-center p-2 max-w-[400px] mx-auto
+                   mt-2"
       >
         <ul className="flex flex-row p-2 space-x-8">
           {navLinks.map((link) => (
@@ -46,7 +48,7 @@ const Navbar = () => {
       {/* Mobile burger button */}
       <div
         onClick={toggleNav}
-        className="md:hidden absolute top-5 right-14 border rounded
+        className="md:hidden absolute top-5 right-4 border rounded
                    z-50 text-white/70 border-white/70 p-2"
       >
         {nav ? <AiOutlineClose size={30} /> : <AiOutlineMenu size={30} />}
