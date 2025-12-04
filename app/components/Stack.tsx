@@ -47,7 +47,6 @@ const Stack = () => {
     radial-gradient(125% 125% at 50% 100%, #000 50%, ${color})
   `;
 
-  // OBSERWACJA NAGŁÓWKÓW (powtarzalna animacja)
   const titleRef = useRef<HTMLHeadingElement | null>(null);
   const devRef = useRef<HTMLHeadingElement | null>(null);
 
@@ -59,7 +58,7 @@ const Stack = () => {
       id="stack"
       aria-label="Tech stack – technologie, w których pracuję"
       style={{ backgroundImage }}
-      className="py-32 px-4 text-white"
+      className="py-32 px-4 text-white overflow-x-hidden" // ⬅️ ważne
     >
       <div className="max-w-[1200px] mx-auto">
         {/* Tech Stack — z lewej */}
@@ -79,9 +78,14 @@ const Stack = () => {
         </p>
 
         {/* Separator */}
-        <div className="relative my-10 md:my-14 flex justify-center">
+        <div className="relative my-10 md:my-14 flex justify-center overflow-hidden">
+          {/* cienka linia */}
           <div className="w-full max-w-4xl h-px bg-white/10" />
-          <div className="absolute inset-0 mx-auto w-1/2 h-px bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent blur-md" />
+          {/* świecący gradient wyśrodkowany */}
+          <div
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 
+                       w-1/2 h-px bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent blur-md"
+          />
         </div>
 
         {/* Technologie developerskie — z prawej */}
@@ -100,31 +104,36 @@ const Stack = () => {
         </p>
 
         {/* KAFELKI */}
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-4">
           {stackItems.map((item) => (
             <div
               key={item.name}
-              className="p-6 rounded-xl border border-slate-800 bg-slate-950/10 backdrop-blur-md transition-all shadow shadow-blue-300"
+              className="p-3 md:p-6 rounded-xl border border-slate-800 bg-slate-950/10 
+                 backdrop-blur-md transition-all shadow shadow-blue-300"
             >
-              <div className="flex flex-col items-center text-center">
-                <div className="relative mb-4">
-                  {/* ŻYWY, NIEBIESKI GLOW – TEN SAM DLA KAŻDEJ IKONY */}
+              {/* MOBILE: ikona + tekst w jednym rzędzie
+          DESKTOP: pionowo */}
+              <div
+                className="flex flex-row md:flex-col items-center md:items-center 
+                      text-left md:text-center gap-3 md:gap-4"
+              >
+                {/* Glow + ikona */}
+                <div className="relative">
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="w-12 h-12 rounded-lg shadow-sm shadow-blue-500" />
+                    {/* Glow mniejszy na mobile */}
+                    <div className="w-8 h-8 md:w-12 md:h-12 rounded-lg shadow-sm shadow-blue-500" />
                   </div>
 
-                  {/* IKONA */}
-                  <div className="relative p-3 rounded-xl border border-slate-800 bg-black/40">
+                  <div className="relative p-2 md:p-3 rounded-xl border border-slate-800 bg-black/40">
                     <item.icon
-                      className="w-8 h-8"
-                      style={{
-                        color: item.color,
-                      }}
+                      className="w-6 h-6 md:w-8 md:h-8" // 👈 MNIEJSZA IKONA NA MOBILE
+                      style={{ color: item.color }}
                     />
                   </div>
                 </div>
 
-                <h4 className="text-xl font-semibold leading-snug text-center">
+                {/* Nazwa technologii */}
+                <h4 className="text-sm md:text-xl font-semibold leading-snug">
                   {item.name}
                 </h4>
               </div>

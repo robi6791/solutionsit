@@ -211,37 +211,64 @@ const Footer = () => {
 
         {/* 🔹 Panel LED z technologiami */}
         <div className="relative px-4 flex justify-center">
-          <div className="select-none flex flex-col items-center gap-8 max-w-[1000px] w-full">
-            {/* RESPONSYWNA SIATKA */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-6 gap-y-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96, y: 20 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.4 }}
+            className="select-none flex flex-col items-center gap-8 max-w-[1000px] w-full relative"
+          >
+            {/* Scanlines overlay */}
+            <motion.div
+              className="pointer-events-none absolute inset-0 opacity-25 mix-blend-soft-light"
+              aria-hidden="true"
+              animate={{ backgroundPositionY: ["0%", "100%", "0%"] }}
+              transition={{
+                duration: 6,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+              style={{
+                backgroundImage:
+                  "linear-gradient(to bottom, rgba(148,163,184,0.4) 1px, transparent 3px)",
+                backgroundSize: "100% 6px",
+              }}
+            />
+
+            {/* Siatka LED – 4x4 */}
+            <div className="relative grid grid-cols-4 gap-x-4 gap-y-4 place-items-center">
               {techLeds.map(
-                ({ label, color, glow, blinking, duration, delay }) => {
-                  const LedDot = blinking ? motion.span : "span";
+                ({ label, color, glow, blinking, duration, delay }, index) => {
+                  // pseudo-losowe przesunięcie delay na bazie indexu
+                  const baseDelay = (index * 0.37) % 2.5;
 
                   return (
                     <div
                       key={label}
                       className="flex flex-col items-center gap-1 min-w-[56px] max-w-[90px]"
                     >
-                      <LedDot
+                      <motion.span
                         className="w-2.5 h-2.5 rounded-full"
                         style={{
                           backgroundColor: color,
                           boxShadow: glow,
                         }}
-                        {...(blinking
-                          ? {
-                              animate: {
-                                opacity: [0.25, 1, 0.4, 0.9, 0.25],
-                              },
-                              transition: {
-                                duration: duration ?? 2,
-                                repeat: Infinity,
-                                ease: "easeInOut" as const,
-                                delay: delay ?? 0,
-                              },
-                            }
-                          : {})}
+                        animate={
+                          blinking
+                            ? {
+                                opacity: [0.2, 1, 0.3, 0.9, 0.2],
+                              }
+                            : {
+                                opacity: [0.7, 0.9, 0.8, 1, 0.75],
+                              }
+                        }
+                        transition={{
+                          duration: blinking ? duration ?? 2 : 3 + (index % 3),
+                          repeat: Infinity,
+                          repeatType: "mirror",
+                          ease: "easeInOut",
+                          delay: (delay ?? 0) + baseDelay,
+                        }}
                       />
                       <span className="text-[0.55rem] tracking-[0.20em] text-slate-300/80 uppercase text-center mt-[1px] leading-snug">
                         {label}
@@ -251,7 +278,7 @@ const Footer = () => {
                 }
               )}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
 

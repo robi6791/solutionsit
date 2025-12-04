@@ -16,10 +16,8 @@ import {
   FiEdit,
 } from "react-icons/fi";
 
-// Paleta niebiesko-cyjanowa
 const COLORS_TOP = ["#007ACC", "#00BFFF", "#00FFFF", "#40E0D0"];
 
-// Zmodyfikowana lista skills – lekko doprawiona pod SEO
 const skills = [
   {
     icon: FiTool,
@@ -78,7 +76,7 @@ const About = () => {
   return (
     <motion.section
       style={{ backgroundImage }}
-      className="py-32 px-6 text-white overflow-x-clip"
+      className="py-32 px-4 md:px-6 text-white overflow-x-hidden"
       id="about"
       aria-label="Sekcja o mnie – kim jestem i jakie mam umiejętności jako freelancer IT"
     >
@@ -98,23 +96,23 @@ const About = () => {
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-5xl text-white w-full text-center font-bold mb-16"
+          className="text-4xl md:text-5xl text-white w-full text-center font-bold mb-16"
         >
           O <span className="text-cyan-300">mnie</span>
         </motion.h2>
 
-        <div className="grid md:grid-cols-2 gap-12">
+        <div className="grid md:grid-cols-2 gap-10 md:gap-12">
           {/* Kolumna z tekstem "Moja Droga" */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            <div className="border border-gray-800 p-6 space-y-6 rounded-lg transition-colors duration-300 bg-gray-900/40 backdrop-blur-sm">
+            <div className="border border-gray-800 p-5 md:p-6 space-y-6 rounded-lg transition-colors duration-300 bg-gray-900/40 backdrop-blur-sm">
               <p className="text-2xl font-semibold text-cyan-300">
                 Moja droga w IT
               </p>
-              <p className="text-gray-300 text-lg leading-relaxed">
+              <p className="text-gray-300 text-base md:text-lg leading-relaxed">
                 Nazywam się{" "}
                 <span className="text-cyan-400 font-semibold">
                   Robert Senenko
@@ -135,7 +133,7 @@ const About = () => {
                 sprzętowe i systemowe, a także administruję systemami Windows i
                 Linux.
               </p>
-              <p className="text-gray-300 text-lg leading-relaxed">
+              <p className="text-gray-300 text-base md:text-lg leading-relaxed">
                 Od{" "}
                 <span className="text-cyan-400 font-semibold">kilku lat</span>{" "}
                 rozwijam się również jako{" "}
@@ -151,7 +149,7 @@ const About = () => {
                 potrafię patrzeć na projekt całościowo – od fizycznego sprzętu,
                 przez system, aż po kod i użytkownika końcowego.
               </p>
-              <p className="text-gray-400 text-base leading-relaxed">
+              <p className="text-gray-400 text-sm md:text-base leading-relaxed">
                 Na co dzień pracuję w branży serwisowej IT, a po godzinach
                 realizuję projekty z zakresu programowania fullstack,
                 elektroniki i administracji systemami dla osób prywatnych oraz
@@ -161,12 +159,12 @@ const About = () => {
             </div>
           </motion.div>
 
-          {/* Kolumna z umiejętnościami (Skills) */}
+          {/* Kolumna z umiejętnościami (Skills) – KAFLE NA MAX SZEROKOŚĆ */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
-            className="space-y-6"
+            className="grid grid-cols-1 gap-4"
           >
             {skills.map((skill, index) => (
               <motion.div
@@ -174,18 +172,21 @@ const About = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 * index }}
-                className="p-6 backdrop-blur-3xl rounded-lg border border-gray-800 transition-colors duration-300 bg-gray-900/40"
+                className="w-full p-4 md:p-5 backdrop-blur-3xl rounded-lg border border-gray-800 transition-colors duration-300 bg-gray-900/40"
               >
-                <div className="flex items-start gap-4">
-                  {/* Ikonka z akcentem cyjanu */}
-                  <div className="p-3 rounded-lg bg-cyan-500/50 text-cyan-300 shrink-0">
-                    <skill.icon className="w-6 h-6" aria-hidden="true" />
+                <div className="flex items-start gap-3 md:gap-4">
+                  {/* Ikonka */}
+                  <div className="p-2 md:p-3 rounded-lg bg-cyan-500/50 text-cyan-300 shrink-0">
+                    <skill.icon
+                      className="w-5 h-5 md:w-6 md:h-6"
+                      aria-hidden="true"
+                    />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold mb-2">
+                    <h3 className="text-base md:text-xl font-semibold mb-1 md:mb-2">
                       {skill.title}
                     </h3>
-                    <p className="text-gray-400 text-sm md:text-base">
+                    <p className="text-gray-400 text-sm md:text-base leading-relaxed">
                       {skill.description}
                     </p>
                   </div>

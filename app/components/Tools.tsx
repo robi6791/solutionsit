@@ -32,7 +32,7 @@ const Tools = () => {
       aria-label="Narzędzia, z których korzystam na co dzień"
     >
       <div className="max-w-[1200px] mx-auto">
-        {/* ANIMACJA TYLKO NA TYTUŁ – wjazd z lewej */}
+        {/* Tytuł */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -51,30 +51,28 @@ const Tools = () => {
           </p>
         </motion.div>
 
-        {/* BEZ ANIMACJI NA IKONKACH */}
-        <div className="grid gap-8 sm:grid-cols-3 md:grid-cols-5 place-items-center">
+        {/* SIATKA – 2 kolumny mobile, 4 od sm, 5 od md */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3 sm:gap-4">
           {tools.map((tool) => (
-            <div key={tool.name} className="flex flex-col items-center">
-              <div className="relative mb-2">
-                <div
-                  className="absolute inset-0 rounded-md opacity-0 "
-                  style={{
-                    backgroundColor: tool.color,
-                  
-                  }}
-                />
-                <div className="relative p-3 rounded-lg border border-slate-800 bg-slate-950/10 shadow-xs shadow-blue-300">
+            <div
+              key={tool.name}
+              className="w-full flex items-center gap-2 sm:gap-3 
+                         rounded-lg border border-slate-800 bg-slate-950/20 
+                         px-2 py-2 sm:px-3 sm:py-3"
+            >
+              {/* Ikona */}
+              <div className="relative flex-shrink-0">
+                <div className="relative p-1.5 sm:p-2 rounded-md border border-slate-800 bg-black/40">
                   <tool.icon
-                    className="w-16 h-8"
-                    style={{
-                      color: tool.color,
-                    
-                    }}
+                    className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6"
+                    style={{ color: tool.color }}
                     aria-hidden="true"
                   />
                 </div>
               </div>
-              <span className="text-xs text-gray-300 text-center">
+
+              {/* Nazwa */}
+              <span className="text-[10px] sm:text-xs md:text-sm text-gray-200 leading-snug">
                 {tool.name}
               </span>
             </div>
